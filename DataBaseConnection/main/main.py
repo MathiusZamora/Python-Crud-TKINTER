@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append(r"C:\Users\Jader Mendoza\Desktop\ExamenFinalLenguajeProgramacion\DataBaseConnection")
+sys.path.append(r"C:/Users/MathiusZ/Desktop/ExamenFinal/DataBaseConnection")
 from dao import daoConnection
 from models import clases as c
 
@@ -22,7 +22,7 @@ def addLab():
     
 
 def editLab():
-    id = int(input("ID de la ciudad a editar: "))
+    id = int(input("ID del laboratorio a editar: "))
     newName = input("Nuevo nombre del Laboratorio: ")
     newAddress = input("Nueva direccion del Laboratorio: ")
     newPhone = input("Nuevo telefono del Laboratorio: ")
@@ -55,19 +55,19 @@ def searchLab():
 
 
 
-def Menu():
-    print("1. Igresar Laboratorio")
+def MenuLab():
+    print("1. Ingresar Laboratorio")
     print("2. Editar Laboratorio")
     print("3. Mostrar Laboratorio")
     print("4. Eliminar Laboratorio")
     print("5. Buscar Laboratorio")
     print("6. Salir")
 
-def main():
+def mainLab():
     opcion = 0
 
     while(opcion != 6): 
-        Menu()
+        MenuLab()
         opcion = int(input("Ingresa una opcion: "))
 
         if (opcion == 1):
@@ -89,6 +89,118 @@ def main():
         elif(opcion == 5):
             searchLab()
             os.system("pause")
+
+
+
+
+
+
+
+def addSupplier():
+    name = input("Nombre del Proveedor: ")
+    address = input("Direccion del Proveedor: ")
+    phone = input("Telefono del Proveedor: ")
+    email = input("Email del Proveedor: ")
+
+    supplier = c.Supplier(name, address, phone, email, 1, None)
+    daoSupplier = daoConnection.DaoSupplier(conex)
+    daoSupplier.insert(supplier)
+    
+
+def editSupplier():
+    id = int(input("ID del proveedor a editar: "))
+    newName = input("Nuevo nombre del Proveedor: ")
+    newAddress = input("Nueva direccion del Proveedor: ")
+    newPhone = input("Nuevo telefono del Proveedor: ")
+    newEmail = input("Nuevo email del Proveedor: ")
+
+
+    daoSupplier = daoConnection.DaoSupplier(conex)
+    supplier = c.Supplier(newName, newAddress, newPhone, newEmail, 1, id)
+    daoSupplier.update(supplier)
+
+
+def showSupplier():
+    daoSupplier = daoConnection.DaoSupplier(conex)
+    suppliers = daoSupplier.get_all()
+    for supplier in suppliers:
+        print(supplier)
+
+
+def deleteSupplier():
+    id = int(input("ID del Proveedor a eliminar: "))
+    daoSupplier = daoConnection.DaoSupplier(conex)
+    daoSupplier.delete(id)
+
+
+def searchSupplier():
+    id = int(input("ID del Proveedor a buscar: "))
+    daoSupplier = daoConnection.DaoSupplier(conex)
+    suppliers = daoSupplier.get_by_id(id)
+    print(suppliers)
+
+
+
+def MenuSupplier():
+    print("1. Ingresar Proveedor")
+    print("2. Editar Proveedor")
+    print("3. Mostrar Proveedor")
+    print("4. Eliminar Proveedor")
+    print("5. Buscar Proveedor")
+    print("6. Salir")
+
+def mainSupplier():
+    opcion = 0
+
+    while(opcion != 6): 
+        MenuSupplier()
+        opcion = int(input("Ingresa una opcion: "))
+
+        if (opcion == 1):
+            addSupplier()
+            os.system("pause")
+
+        elif(opcion == 2):
+            editSupplier()
+            os.system("pause")
+
+        elif(opcion == 3):
+            showSupplier()
+            os.system("pause")
+        
+        elif(opcion == 4):
+            deleteSupplier()
+            os.system("pause")
+
+        elif(opcion == 5):
+            searchSupplier()
+            os.system("pause")
+
+
+
+
+def MenuPrincipal():
+    os.system('cls')
+    print("----------------------------")
+    print("1. Registros de Laboratorios")
+    print("2. Registros de Proveedores")
+    print("3. Registros empleados")
+    print("4. Salir")
+    print("----------------------------")
+
+
+def main():
+    opcion= 0
+    while(opcion != 4):
+        MenuPrincipal()
+        opcion = int(input("dime tu opcion:"))
+        if (opcion == 1):
+            mainLab()
+            os.system("pause")
+        elif (opcion == 2):
+            mainSupplier()
+            os.system("pause")    
+
 
 main()
 
