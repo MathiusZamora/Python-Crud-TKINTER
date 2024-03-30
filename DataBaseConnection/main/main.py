@@ -71,22 +71,27 @@ def mainLab():
         opcion = int(input("Ingresa una opcion: "))
 
         if (opcion == 1):
+            os.system('cls')
             addLab()
             os.system("pause")
 
         elif(opcion == 2):
+            os.system('cls')
             editLab()
             os.system("pause")
 
         elif(opcion == 3):
+            os.system('cls')
             showLab()
             os.system("pause")
         
         elif(opcion == 4):
+            os.system('cls')
             deleteLab()
             os.system("pause")
 
         elif(opcion == 5):
+            os.system('cls')
             searchLab()
             os.system("pause")
 
@@ -157,22 +162,27 @@ def mainSupplier():
         opcion = int(input("Ingresa una opcion: "))
 
         if (opcion == 1):
+            os.system('cls')
             addSupplier()
             os.system("pause")
 
         elif(opcion == 2):
+            os.system('cls')
             editSupplier()
             os.system("pause")
 
         elif(opcion == 3):
+            os.system('cls')
             showSupplier()
             os.system("pause")
         
         elif(opcion == 4):
+            os.system('cls')
             deleteSupplier()
             os.system("pause")
 
         elif(opcion == 5):
+            os.system('cls')
             searchSupplier()
             os.system("pause")
 
@@ -184,7 +194,7 @@ def MenuPrincipal():
     print("----------------------------")
     print("1. Registros de Laboratorios")
     print("2. Registros de Proveedores")
-    print("3. Registros empleados")
+    print("3. Registros --")
     print("4. Salir")
     print("----------------------------")
 
