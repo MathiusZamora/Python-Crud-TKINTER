@@ -80,7 +80,7 @@ class DaoSupplier:
     
 
 
-class DaoItems:
+class DaoItem:
     def __init__(self, connection):
         self.connection = connection
     
@@ -94,11 +94,11 @@ class DaoItems:
     
     def insert(self, item):
         query = 'INSERT INTO items (name, labs_id, suppliers_id, price, category, expiration_date, description, status) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
-        return self.connection.execute_query(query, (item.name, item.labs_id, item.suppliers_id, item.price, item.category, item.expiration_date, item.description, item.satus))
+        return self.connection.execute_query(query, (item.name, item.labs_id, item.suppliers_id, item.price, item.category, item.expiration_date, item.description, item.status))
     
     def update(self, item):
         query = 'UPDATE items SET name = %s, labs_id = %s, suppliers_id = %s, price = %s, category = %s, expiration_date = %s, description = %s, status = %s WHERE id = %s'
-        return self.connection.execute_query(query, (item.name, item.labs_id, item.suppliers_id, item.price, item.category, item.expiration_date, item.description, item.satus, item.id))
+        return self.connection.execute_query(query, (item.name, item.labs_id, item.suppliers_id, item.price, item.category, item.expiration_date, item.description, item.status, item.id))
     
     def delete(self, id):
         query = 'DELETE FROM items WHERE id = %s'
