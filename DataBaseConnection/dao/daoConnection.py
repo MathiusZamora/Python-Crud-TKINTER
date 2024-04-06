@@ -85,9 +85,35 @@ class DaoItem:
         self.connection = connection
     
     def get_all(self):
-        query = 'SELECT * FROM items'
+        query = """
+        SELECT 'ID', 
+           'Nombre del Item', 
+           'Proveedor', 
+           'Laboratorio', 
+           'Precio', 
+           'Categoría', 
+           'Fecha de Expiración', 
+           'Descripción', 
+           'Estado'
+        UNION ALL
+        SELECT items.id, 
+           items.name AS Nombre, 
+           suppliers.name AS Supplier, 
+           labs.name AS Lab, 
+           items.price, 
+           items.category, 
+           items.expiration_date, 
+           items.description, 
+           items.status
+        FROM items
+        JOIN suppliers ON items.suppliers_id = suppliers.id
+        JOIN labs ON items.labs_id = labs.id;
+        """
+
         return self.connection.execute_read_query(query, ())
-    
+
+
+
     def get_by_id(self, id):
         query = 'SELECT * FROM items WHERE id = %s'
         return self.connection.execute_read_query(query, (id,))
