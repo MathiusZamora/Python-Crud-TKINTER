@@ -1,9 +1,9 @@
 import os
 import sys
 #Direccion de mafiu para ejecutar > 
-#sys.path.append(r"C:/Users/MathiusZ/Desktop/ExamenFinal/DataBaseConnection")
+sys.path.append(r"C:/Users/MathiusZ/Desktop/ProyectoLP/ExamenFinal/DataBaseConnection")
 #Direccion de Jader para ejecutar > 
-sys.path.append(r"C:\Users\Jader Mendoza\Desktop\ExamenFinalLenguajeProgramacion\DataBaseConnection")
+#sys.path.append(r"C:\Users\Jader Mendoza\Desktop\ExamenFinalLenguajeProgramacion\DataBaseConnection")
 from dao import daoConnection
 from models import clases as c
 from datetime import datetime
@@ -54,9 +54,9 @@ def deleteLab():
 
 #buscar
 def searchLab():
-    id = int(input("ID del laboratorio buscar: "))
+    getByName = input("Nombre del laboratorio a buscar: ")
     daoLab = daoConnection.DaoLab(conex)
-    labs = daoLab.get_by_id(id)
+    labs = daoLab.get_by_id(getByName)
     print(labs)
 
 
@@ -143,9 +143,9 @@ def deleteSupplier():
 
 #buscar
 def searchSupplier():
-    id = int(input("ID del Proveedor a buscar: "))
+    getByName = input("nombre del Proveedor a buscar: ")
     daoSupplier = daoConnection.DaoSupplier(conex)
-    suppliers = daoSupplier.get_by_id(id)
+    suppliers = daoSupplier.get_by_id(getByName)
     print(suppliers)
 
 
@@ -199,9 +199,9 @@ def deleteItem():
 
 #buscar
 def searchItem():
-    id = int(input("ID del Item a buscar: "))
-    daoItem = daoConnection.Item(conex)
-    items = daoItem.get_by_id(id)
+    getByName = input("nombre del Item a buscar: ")
+    daoItem = daoConnection.DaoItem(conex)
+    items = daoItem.get_by_id(getByName)
     print(items)
 
 

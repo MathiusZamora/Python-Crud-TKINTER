@@ -38,7 +38,7 @@ class DaoLab:
         return self.connection.execute_read_query(query, ())
     
     def get_by_id(self, id):
-        query = 'SELECT * FROM labs WHERE id = %s'
+        query = 'SELECT * FROM labs WHERE name = %s'
         return self.connection.execute_read_query(query, (id,))
     
     def insert(self, lab):
@@ -63,7 +63,7 @@ class DaoSupplier:
         return self.connection.execute_read_query(query, ())
     
     def get_by_id(self, id):
-        query = 'SELECT * FROM suppliers WHERE id = %s'
+        query = 'SELECT * FROM suppliers WHERE name = %s'
         return self.connection.execute_read_query(query, (id,))
     
     def insert(self, supplier):
@@ -115,7 +115,7 @@ class DaoItem:
 
 
     def get_by_id(self, id):
-        query = 'SELECT * FROM items WHERE id = %s'
+        query = 'SELECT * FROM items WHERE name = %s'
         return self.connection.execute_read_query(query, (id,))
     
     def insert(self, item):
