@@ -117,6 +117,7 @@ def mainLab():
             os.system("pause")
 
 #Funciones para Proveedores 
+
 #agregar
 def addSupplier():
     name = input("Nombre del Proveedor: ")
