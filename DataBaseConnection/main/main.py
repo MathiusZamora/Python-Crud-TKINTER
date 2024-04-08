@@ -169,6 +169,7 @@ def searchSupplier():
 
 
 #Funciones para items
+
 #agregar
 def addItem():
     name = input("Nombre del Item: ")
@@ -206,7 +207,6 @@ def editItem():
         print("Status inválido. Debe ser 1 o 2.")
 
     
-
 #mostar
 def showItem():
     daoItem = daoConnection.DaoItem(conex)
