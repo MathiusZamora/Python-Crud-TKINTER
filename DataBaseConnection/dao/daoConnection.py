@@ -34,12 +34,47 @@ class DaoLab:
         self.connection = connection
     
     def get_all(self):
-        query = 'SELECT * FROM labs'
+        query = """
+        SELECT
+            LPAD('ID', 3, ' ') AS ID,
+            LPAD('Nombre del Laboratorio', 20, ' ') AS Nombre_del_Laboratorio,
+            LPAD('Dirección', 20, ' ') AS Dirección,
+            LPAD('Teléfono', 15, ' ') AS Teléfono,
+            LPAD('Correo Electrónico', 25, ' ') AS Correo_Electrónico,
+            LPAD('Estado', 6, ' ') AS Estado
+        UNION ALL
+        SELECT
+            LPAD(id, 3, ' ') AS ID,
+            LPAD(name, 20, ' ') AS Nombre_del_Laboratorio,
+            LPAD(address, 20, ' ') AS Dirección,
+            LPAD(phone, 15, ' ') AS Teléfono,
+            LPAD(email, 25, ' ') AS Correo_Electrónico,
+            LPAD(status, 6, ' ') AS Estado
+        FROM labs;
+        """
         return self.connection.execute_read_query(query, ())
     
-    def get_by_id(self, id):
-        query = 'SELECT * FROM labs WHERE name = %s'
-        return self.connection.execute_read_query(query, (id,))
+    def get_by_name(self, name):
+        query = """
+        SELECT
+            LPAD('ID', 10, ' ') AS ID,
+            LPAD('Nombre del Laboratorio', 25, ' ') AS Nombre_del_Laboratorio,
+            LPAD('Dirección', 34, ' ') AS Dirección,
+            LPAD('Teléfono', 20, ' ') AS Teléfono,
+            LPAD('Correo Electrónico', 30, ' ') AS Correo_Electrónico,
+            LPAD('Estado', 10, ' ') AS Estado
+        UNION ALL
+        SELECT
+            LPAD(id, 10, ' ') AS ID,
+            LPAD(name, 25, ' ') AS Nombre_del_Laboratorio,
+            LPAD(address, 34, ' ') AS Dirección,
+            LPAD(phone, 20, ' ') AS Teléfono,
+            LPAD(email, 30, ' ') AS Correo_Electrónico,
+            LPAD(status, 10, ' ') AS Estado
+        FROM labs
+        WHERE name = %s;
+        """
+        return self.connection.execute_read_query(query, (name,))
     
     def insert(self, lab):
         query = 'INSERT INTO labs (name, address, phone, email, status) VALUES (%s, %s, %s, %s, %s)'
@@ -59,13 +94,50 @@ class DaoSupplier:
         self.connection = connection
     
     def get_all(self):
-        query = 'SELECT * FROM suppliers'
+        query = """
+        SELECT
+            LPAD('ID', 3, ' ') AS ID,
+            LPAD('Nombre del Proveedor', 20, ' ') AS Nombre_del_Proveedor,
+            LPAD('Dirección', 20, ' ') AS Dirección,
+            LPAD('Teléfono', 15, ' ') AS Teléfono,
+            LPAD('Correo Electrónico', 25, ' ') AS Correo_Electrónico,
+            LPAD('Estado', 6, ' ') AS Estado
+        UNION ALL
+        SELECT
+            LPAD(id, 3, ' ') AS ID,
+            LPAD(name, 20, ' ') AS Nombre_del_Proveedor,
+            LPAD(address, 20, ' ') AS Dirección,
+            LPAD(phone, 15, ' ') AS Teléfono,
+            LPAD(email, 25, ' ') AS Correo_Electrónico,
+            LPAD(status, 6, ' ') AS Estado
+        FROM suppliers;
+        """
         return self.connection.execute_read_query(query, ())
     
-    def get_by_id(self, id):
-        query = 'SELECT * FROM suppliers WHERE name = %s'
-        return self.connection.execute_read_query(query, (id,))
+    def get_by_name(self, name):
+        query = """
+        SELECT
+            LPAD('ID', 10, ' ') AS ID,
+            LPAD('Nombre del Proveedor', 25, ' ') AS Nombre_del_Proveedor,
+            LPAD('Dirección', 34, ' ') AS Dirección,
+            LPAD('Teléfono', 20, ' ') AS Teléfono,
+            LPAD('Correo Electrónico', 30, ' ') AS Correo_Electrónico,
+            LPAD('Estado', 10, ' ') AS Estado
+        UNION ALL
+        SELECT
+            LPAD(id, 10, ' ') AS ID,
+            LPAD(name, 25, ' ') AS Nombre_del_Proveedor,
+            LPAD(address, 34, ' ') AS Dirección,
+            LPAD(phone, 20, ' ') AS Teléfono,
+            LPAD(email, 30, ' ') AS Correo_Electrónico,
+            LPAD(status, 10, ' ') AS Estado
+        FROM suppliers
+        WHERE name = %s;
+        """
+        return self.connection.execute_read_query(query, (name,))
     
+
+
     def insert(self, supplier):
         query = 'INSERT INTO suppliers (name, address, phone, email, status) VALUES (%s, %s, %s, %s, %s)'
         return self.connection.execute_query(query, (supplier.name, supplier.address, supplier.phone, supplier.email, supplier.status))
@@ -86,25 +158,27 @@ class DaoItem:
     
     def get_all(self):
         query = """
-        SELECT 'ID', 
-           'Nombre del Item', 
-           'Proveedor', 
-           'Laboratorio', 
-           'Precio', 
-           'Categoría', 
-           'Fecha de Expiración', 
-           'Descripción', 
-           'Estado'
+        SELECT
+            LPAD('ID', 3, ' ') AS ID,
+            LPAD('Nombre del Item', 20, ' ') AS Nombre_del_Item,
+            LPAD('Proveedor', 15, ' ') AS Proveedor,
+            LPAD('Laboratorio', 15, ' ') AS Laboratorio,
+            LPAD('Precio', 6, ' ') AS Precio,
+            LPAD('Categoría', 10, ' ') AS Categoría,
+            LPAD('Fecha de Expiración', 19, ' ') AS Fecha_de_Expiración,
+            LPAD('Descripción', 15, ' ') AS Descripción,
+            LPAD('Estado', 6, ' ') AS Estado
         UNION ALL
-        SELECT items.id, 
-           items.name AS Nombre, 
-           suppliers.name AS Supplier, 
-           labs.name AS Lab, 
-           items.price, 
-           items.category, 
-           items.expiration_date, 
-           items.description, 
-           items.status
+        SELECT
+            LPAD(items.id, 3, ' ') AS ID,
+            LPAD(items.name, 20, ' ') AS Nombre_del_Item,
+            LPAD(suppliers.name, 15, ' ') AS Proveedor,
+            LPAD(labs.name, 15, ' ') AS Laboratorio,
+            LPAD(items.price, 6, ' ') AS Precio,
+            LPAD(items.category, 10, ' ') AS Categoría,
+            LPAD(items.expiration_date, 19, ' ') AS Fecha_de_Expiración,
+            LPAD(items.description, 15, ' ') AS Descripción,
+            LPAD(items.status, 6, ' ') AS Estado
         FROM items
         JOIN suppliers ON items.suppliers_id = suppliers.id
         JOIN labs ON items.labs_id = labs.id;
@@ -114,9 +188,39 @@ class DaoItem:
 
 
 
-    def get_by_id(self, id):
-        query = 'SELECT * FROM items WHERE name = %s'
-        return self.connection.execute_read_query(query, (id,))
+
+    def get_by_name(self, name):
+        query = """
+        SELECT
+            LPAD('ID', 5, ' ') AS ID,
+            LPAD('Nombre del Item', 20, ' ') AS Nombre_del_Item,
+            LPAD('Proveedor', 15, ' ') AS Proveedor,
+            LPAD('Laboratorio', 15, ' ') AS Laboratorio,
+            LPAD('Precio', 6, ' ') AS Precio,
+            LPAD('Categoría', 10, ' ') AS Categoría,
+            LPAD('Fecha de Expiración', 19, ' ') AS Fecha_de_Expiración,
+            LPAD('Descripción', 20, ' ') AS Descripción,
+            LPAD('Estado', 6, ' ') AS Estado
+        UNION ALL
+        SELECT
+            LPAD(items.id, 5, ' ') AS ID,
+            LPAD(items.name, 20, ' ') AS Nombre_del_Item,
+            LPAD(suppliers.name, 15, ' ') AS Proveedor,
+            LPAD(labs.name, 15, ' ') AS Laboratorio,
+            LPAD(items.price, 6, ' ') AS Precio,
+            LPAD(items.category, 10, ' ') AS Categoría,
+            LPAD(items.expiration_date, 19, ' ') AS Fecha_de_Expiración,
+            LPAD(items.description, 20, ' ') AS Descripción,
+            LPAD(items.status, 6, ' ') AS Estado
+        FROM items
+        JOIN suppliers ON items.suppliers_id = suppliers.id
+        JOIN labs ON items.labs_id = labs.id
+        WHERE items.name = %s;
+        """
+        return self.connection.execute_read_query(query, (name,))
+    
+
+
     
     def insert(self, item):
         query = 'INSERT INTO items (name, labs_id, suppliers_id, price, category, expiration_date, description, status) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'

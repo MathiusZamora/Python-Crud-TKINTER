@@ -1,9 +1,9 @@
 import os
 import sys
 #Direccion de mafiu para ejecutar > 
-sys.path.append(r"C:/Users/MathiusZ/Desktop/ProyectoLP/ExamenFinal/DataBaseConnection")
+#sys.path.append(r"C:/Users/MathiusZ/Desktop/ProyectoLP/ExamenFinal/DataBaseConnection")
 #Direccion de Jader para ejecutar > 
-#sys.path.append(r"C:\Users\Jader Mendoza\Desktop\ExamenFinalLenguajeProgramacion\DataBaseConnection")
+sys.path.append(r"C:\Users\Jader Mendoza\Desktop\ExamenFinalLenguajeProgramacion\DataBaseConnection")
 from dao import daoConnection
 from models import clases as c
 from datetime import datetime
@@ -13,6 +13,15 @@ from datetime import datetime
 os.system('cls')
 conex = daoConnection.Connection("localhost", "root", "", "pharmacydatabase")
 conex.connect()
+
+
+#funcion para validar que el status sea valido (solamente puede ser 1 o 2)
+def validar_status(status):
+    if status == 1 or status == 2:
+        return True
+    else:
+        return False
+    
 
 #Funciones para Laboratorio
 #agregar
@@ -33,11 +42,15 @@ def editLab():
     newAddress = input("Nueva direccion del Laboratorio: ")
     newPhone = input("Nuevo telefono del Laboratorio: ")
     newEmail = input("Nuevo email del Laboratorio: ")
+    status = int(input("Ingrese el nuevo estado: 1) Activo || 2) Inactivo: "))
 
-
-    daoLab = daoConnection.DaoLab(conex)
-    laboratorio = c.Lab(newName, newAddress, newPhone, newEmail, 1, id)
-    daoLab.update(laboratorio)
+    if validar_status(status):
+        print("Status valido")
+        daoLab = daoConnection.DaoLab(conex)
+        laboratorio = c.Lab(newName, newAddress, newPhone, newEmail, status, id)
+        daoLab.update(laboratorio)
+    else:
+        print("Status inválido. Debe ser 1 o 2.")
 
 #mostrar
 def showLab():
@@ -56,7 +69,7 @@ def deleteLab():
 def searchLab():
     getByName = input("Nombre del laboratorio a buscar: ")
     daoLab = daoConnection.DaoLab(conex)
-    labs = daoLab.get_by_id(getByName)
+    labs = daoLab.get_by_name(getByName)
     print(labs)
 
 
@@ -66,7 +79,7 @@ def MenuLab():
     print("*Menu de Laboratorios*")
     print("1. Ingresar Laboratorio")
     print("2. Editar Laboratorio")
-    print("3. Mostrar Laboratorio")
+    print("3. Mostrar Laboratorios")
     print("4. Eliminar Laboratorio")
     print("5. Buscar Laboratorio")
     print("6. Salir")
@@ -122,11 +135,15 @@ def editSupplier():
     newAddress = input("Nueva direccion del Proveedor: ")
     newPhone = input("Nuevo telefono del Proveedor: ")
     newEmail = input("Nuevo email del Proveedor: ")
-
-
-    daoSupplier = daoConnection.DaoSupplier(conex)
-    supplier = c.Supplier(newName, newAddress, newPhone, newEmail, 1, id)
-    daoSupplier.update(supplier)
+    status = int(input("Ingrese el nuevo estado: 1) Activo || 2) Inactivo: "))
+    
+    if validar_status(status):
+        print("Status valido")
+        daoSupplier = daoConnection.DaoSupplier(conex)
+        supplier = c.Supplier(newName, newAddress, newPhone, newEmail, status, id)
+        daoSupplier.update(supplier)
+    else:
+        print("Status inválido. Debe ser 1 o 2.")
 
 #mostar
 def showSupplier():
@@ -145,13 +162,12 @@ def deleteSupplier():
 def searchSupplier():
     getByName = input("nombre del Proveedor a buscar: ")
     daoSupplier = daoConnection.DaoSupplier(conex)
-    suppliers = daoSupplier.get_by_id(getByName)
+    suppliers = daoSupplier.get_by_name(getByName)
     print(suppliers)
 
 
 
 #Funciones para items
-###
 #agregar
 def addItem():
     name = input("Nombre del Item: ")
@@ -166,8 +182,8 @@ def addItem():
 
     item = c.Item(name, labs_id, suppliers_id, price, category, expiration_date, description, 1, None)
     daoItem = daoConnection.DaoItem(conex)
-    daoItem.insert(item)
-    
+    daoItem.insert(item)    
+
 #editar
 def editItem():
     id = int(input("ID del Item a editar: "))
@@ -178,11 +194,17 @@ def editItem():
     newCategory = input("Categoria del Item: ")
     newExpiration_date = input("Fecha de expiracion: (dd/mm/yyyy): ")
     newDescription = input("Descripcion del Item: ")
+    status = int(input("Ingrese el nuevo estado: 1) Activo || 2) Inactivo: "))
+    
+    if validar_status(status):
+        print("Status valido")
+        daoItem = daoConnection.DaoItem(conex)
+        item = c.Item(newName, newLabs_id, newSuppliers_id, newPrice, newCategory, newExpiration_date, newDescription, status, id)
+        daoItem.update(item)
+    else:
+        print("Status inválido. Debe ser 1 o 2.")
 
-
-    item = c.Item(newName, newLabs_id, newSuppliers_id, newPrice, newCategory, newExpiration_date, newDescription, 1, id)
-    daoItem = daoConnection.DaoItem(conex)
-    daoItem.update(item)
+    
 
 #mostar
 def showItem():
@@ -199,9 +221,9 @@ def deleteItem():
 
 #buscar
 def searchItem():
-    getByName = input("nombre del Item a buscar: ")
+    getByName = input("Nombre del Item a buscar: ")
     daoItem = daoConnection.DaoItem(conex)
-    items = daoItem.get_by_id(getByName)
+    items = daoItem.get_by_name(getByName)
     print(items)
 
 
@@ -211,7 +233,7 @@ def menuItems():
     print("*Menu de Items*")
     print("1. Ingresar Item")
     print("2. Editar Item")
-    print("3. Mostrar Item")
+    print("3. Mostrar Items")
     print("4. Eliminar Item")
     print("5. Buscar Item")
     print("6. Salir")
@@ -254,7 +276,7 @@ def menuSupplier():
     print("*Menu de Proveedores*")
     print("1. Ingresar Proveedor")
     print("2. Editar Proveedor")
-    print("3. Mostrar Proveedor")
+    print("3. Mostrar Proveedores")
     print("4. Eliminar Proveedor")
     print("5. Buscar Proveedor")
     print("6. Salir")
