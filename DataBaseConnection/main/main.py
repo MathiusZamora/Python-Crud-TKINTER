@@ -1,15 +1,19 @@
 import os
 import sys
+
+#(Agregar agrega la ruta del directorio de donde descargo/guardo el proyecto para no configurar el PYTHONPATH)
 #Direccion de mafiu para ejecutar > 
-#sys.path.append(r"C:/Users/MathiusZ/Desktop/ProyectoLP/ExamenFinal/DataBaseConnection")
+sys.path.append(r"C:/Users/MathiusZ/Desktop/ProyectoLP/ExamenFinal/DataBaseConnection")
 #Direccion de Jader para ejecutar > 
-sys.path.append(r"C:\Users\Jader Mendoza\Desktop\ExamenFinalLenguajeProgramacion\DataBaseConnection")
+#sys.path.append(r"C:\Users\Jader Mendoza\Desktop\ExamenFinalLenguajeProgramacion\DataBaseConnection")
+#Direccion del Profe para ejecutar >  
+#sys.path.append(r"C:\ \ \ \ \")
 from dao import daoConnection
 from models import clases as c
 from datetime import datetime
 
 
-#coneccion a la base de datos
+#conexion a la base de datos
 os.system('cls')
 conex = daoConnection.Connection("localhost", "root", "", "pharmacydatabase")
 conex.connect()
@@ -37,7 +41,9 @@ def addLab():
     
 #editar
 def editLab():
+    showLab()
     id = int(input("ID del laboratorio a editar: "))
+    os.system('cls')
     newName = input("Nuevo nombre del Laboratorio: ")
     newAddress = input("Nueva direccion del Laboratorio: ")
     newPhone = input("Nuevo telefono del Laboratorio: ")
@@ -56,11 +62,13 @@ def editLab():
 def showLab():
     daoLab = daoConnection.DaoLab(conex)
     labs = daoLab.get_all()
+    print("Laboratorios de la base de datos: ")
     for lab in labs:
         print(lab)
 
 #eliminar
 def deleteLab():
+    showLab()
     id = int(input("ID del Laboratorio a eliminar: "))
     daoLab = daoConnection.DaoLab(conex)
     daoLab.delete(id)
@@ -131,7 +139,9 @@ def addSupplier():
     
 #editar
 def editSupplier():
+    showSupplier()
     id = int(input("ID del proveedor a editar: "))
+    os.system('cls')
     newName = input("Nuevo nombre del Proveedor: ")
     newAddress = input("Nueva direccion del Proveedor: ")
     newPhone = input("Nuevo telefono del Proveedor: ")
@@ -146,15 +156,17 @@ def editSupplier():
     else:
         print("Status inválido. Debe ser 1 o 2.")
 
-#mostar
+#mostrar
 def showSupplier():
     daoSupplier = daoConnection.DaoSupplier(conex)
     suppliers = daoSupplier.get_all()
+    print("Proveedores de la base de datos: ")
     for supplier in suppliers:
         print(supplier)
 
 #eliminar
 def deleteSupplier():
+    showSupplier()
     id = int(input("ID del Proveedor a eliminar: "))
     daoSupplier = daoConnection.DaoSupplier(conex)
     daoSupplier.delete(id)
@@ -173,7 +185,11 @@ def searchSupplier():
 #agregar
 def addItem():
     name = input("Nombre del Item: ")
+    os.system('cls')
+    showLab()
     labs_id = int(input("ID del Laboratorio: "))
+    os.system('cls')
+    showSupplier()
     suppliers_id = int(input("ID del Proveedor: "))
     price = float(input("Precio del Item: "))
     category = input("Categoria del Item: ")
@@ -188,9 +204,15 @@ def addItem():
 
 #editar
 def editItem():
+    showItem()
     id = int(input("ID del Item a editar: "))
+    os.system('cls')
     newName = input("Nombre del Item: ")
+    os.system('cls')
+    showLab()
     newLabs_id = int(input("ID del Laboratorio: "))
+    os.system('cls')
+    showSupplier()
     newSuppliers_id = int(input("ID del Proveedor: "))
     newPrice = float(input("Precio del Item: "))
     newCategory = input("Categoria del Item: ")
@@ -211,11 +233,13 @@ def editItem():
 def showItem():
     daoItem = daoConnection.DaoItem(conex)
     items = daoItem.get_all()
+    print("Items de la base de datos: ")
     for item in items:
         print(item)
 
 #eliminar
 def deleteItem():
+    showItem()
     id = int(input("ID del Item a eliminar: "))
     daoItem = daoConnection.DaoItem(conex)
     daoItem.delete(id)
