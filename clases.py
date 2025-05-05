@@ -2,7 +2,6 @@ import mysql.connector
 
 
 class Lab:
-
     def __init__(self):
         self.cnn = mysql.connector.connect(host="localhost", user="root", 
         passwd="", database="pharmacydatabase")
@@ -59,9 +58,7 @@ class Lab:
         return n
 
 
-
 class Supp:
-
     def __init__(self):
         self.cnn = mysql.connector.connect(host="localhost", user="root", 
         passwd="", database="pharmacydatabase")
@@ -118,35 +115,60 @@ class Supp:
         return n
 
 
-"""
 class Item:
-    def __init__(self, name, labs_id, suppliers_id, price, category, expiration_date, description, status, id):
-        self.name = name
-        self.labs_id = labs_id
-        self.suppliers_id = suppliers_id
-        self.price = price
-        self.category = category
-        self.expiration_date = expiration_date
-        self.description = description
-        self.status = status
-        self.id = id
-    
-    def get_name(self):
-        return self.name
-    
-    def get_lab(self):
-        return self.lab.name
-    
-    def get_supplier(self):
-        return self.supplier.name
-    
-    def get_price(self):
-        return self.price
-    
-    def get_status(self):
-        return self.status
-    
-    def set_status(self, status):
-        self.status = status
+    def __init__(self):
+        self.cnn = mysql.connector.connect(host="localhost", user="root", 
+        passwd="", database="pharmacydatabase")
 
-"""
+    def __str__(self):
+        datos = self.consulta_items()
+        aux = ""
+        for row in datos:
+            aux = aux + str(row) + "\n"
+        return aux
+
+    def consulta_items(self):
+        cur = self.cnn.cursor()
+        cur.execute("SELECT * FROM items")
+        datos = cur.fetchall()
+        cur.close()
+        return datos
+
+    def buscar_item(self, Id):
+        cur = self.cnn.cursor()
+        sql = "SELECT * FROM items WHERE Id = {}".format(Id)
+        cur.execute(sql)
+        datos = cur.fetchone()
+        cur.close()
+        return datos
+
+    def inserta_item(self, name, labs_id, suppliers_id, price, category, expiration_date, description, status):
+        cur = self.cnn.cursor()
+        sql = '''INSERT INTO items (name, labs_id, suppliers_id, price, category, expiration_date, description, status) 
+                 VALUES('{}', {}, {}, {}, '{}', '{}', '{}', '{}')'''.format(
+                 name, labs_id, suppliers_id, price, category, expiration_date, description, status)
+        cur.execute(sql)
+        n = cur.rowcount
+        self.cnn.commit()
+        cur.close()
+        return n
+
+    def elimina_item(self, Id):
+        cur = self.cnn.cursor()
+        sql = '''DELETE FROM items WHERE Id = {}'''.format(Id)
+        cur.execute(sql)
+        n = cur.rowcount
+        self.cnn.commit()
+        cur.close()
+        return n
+
+    def modifica_item(self, Id, name, labs_id, suppliers_id, price, category, expiration_date, description, status):
+        cur = self.cnn.cursor()
+        sql = '''UPDATE items SET name='{}', labs_id={}, suppliers_id={}, price={}, category='{}', 
+                 expiration_date='{}', description='{}', status='{}' WHERE Id={}'''.format(
+                 name, labs_id, suppliers_id, price, category, expiration_date, description, status, Id)
+        cur.execute(sql)
+        n = cur.rowcount
+        self.cnn.commit()
+        cur.close()
+        return n
